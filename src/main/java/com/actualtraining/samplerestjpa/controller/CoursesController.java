@@ -40,4 +40,14 @@ public class CoursesController {
         }
         //return ResponseEntity.ok().body(courseWithStudentDto.getCourseId()+" "+courseWithStudentDto.getStudentId());
     }
+
+    @GetMapping("/withstudent/{id}")
+    public ResponseEntity getCourseWithStudentById(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(courseService.getCourseWithStudentById(id));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
 }

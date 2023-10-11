@@ -1,9 +1,6 @@
 package com.actualtraining.samplerestjpa.service.impl;
 
-import com.actualtraining.samplerestjpa.dto.CourseReqDto;
-import com.actualtraining.samplerestjpa.dto.CourseResDto;
-import com.actualtraining.samplerestjpa.dto.CourseWithStudentDto;
-import com.actualtraining.samplerestjpa.dto.CourseWithStudentResDto;
+import com.actualtraining.samplerestjpa.dto.*;
 import com.actualtraining.samplerestjpa.entity.Course;
 import com.actualtraining.samplerestjpa.entity.Student;
 import com.actualtraining.samplerestjpa.repository.CourseRepository;
@@ -85,7 +82,23 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public CourseWithStudentResDto getCourseWithStudentById(Long id) {
-        return null;
+        Course course = courseRepository.findById(id).get();
+        List<Student> studentList = course.getStudents();
+        List<StudentResDto> studentResDtoList = new ArrayList<>();
+        for(Student student : studentList){
+            studentResDtoList.add(StudentResDto.builder()
+                    .id(student.getId())
+                    .name(student.getName())
+                    .age(student.getAge())
+                    .build());
+        }
+        return CourseWithStudentResDto.builder()
+                .id(course.getId())
+                .title(course.getTitle())
+                .modules(course.getModules())
+                .fee(course.getFee())
+                .studentResDtoList(studentResDtoList)
+                .build();
     }
 
     @Override
