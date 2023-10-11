@@ -53,7 +53,7 @@ public class BookServiceImpl implements BookService {
                             .name(book.getBookCategory().getName()).build()).build());
         }
         return bookWithCategoryDtos;
-
-
     }
+
+
 }

@@ -35,6 +35,6 @@ public class BookCategory {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "bookCategory", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "bookCategory")
     private List<Book> books;
 }
