@@ -5,8 +5,11 @@ import com.actualtraining.samplerestjpa.dto.CourseResDto;
 import com.actualtraining.samplerestjpa.dto.CourseWithStudentDto;
 import com.actualtraining.samplerestjpa.dto.CourseWithStudentResDto;
 import com.actualtraining.samplerestjpa.entity.Course;
+import com.actualtraining.samplerestjpa.entity.Student;
 import com.actualtraining.samplerestjpa.repository.CourseRepository;
+import com.actualtraining.samplerestjpa.repository.StudentRepository;
 import com.actualtraining.samplerestjpa.service.CourseService;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,12 +19,15 @@ import java.util.List;
 
 @Service
 public class CourseServiceImpl implements CourseService {
-
+    private final Logger logger = org.slf4j.LoggerFactory.getLogger(CourseServiceImpl.class);
     private final CourseRepository courseRepository;
+    private final StudentRepository studentRepository;
 
     @Autowired
-    public CourseServiceImpl(CourseRepository courseRepository) {
+    public CourseServiceImpl(CourseRepository courseRepository,
+                             StudentRepository studentRepository) {
         this.courseRepository = courseRepository;
+        this.studentRepository = studentRepository;
     }
 
     @Override
@@ -59,6 +65,21 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public void registerStudentToCourse(CourseWithStudentDto courseWithStudentDto) {
+        Course course = courseRepository.findById(courseWithStudentDto.getCourseId()).get();
+        Student student = studentRepository.findById(courseWithStudentDto.getStudentId()).get();
+
+        logger.info(course.getTitle());
+        logger.info(student.getName());
+
+        try{
+            student.getCourses().add(course);
+            studentRepository.save(student);
+
+            //course.getStudents().add(student);
+            //courseRepository.save(course);
+        }catch (Exception e) {
+            logger.error(e.getMessage());
+        }
 
     }
 

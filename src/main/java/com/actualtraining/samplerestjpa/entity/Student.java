@@ -19,7 +19,7 @@ public class Student {
     private String name;
     private int age;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
     @JoinTable(name = "students_courses",
             joinColumns = {
                     @JoinColumn(name = "student_id",referencedColumnName = "id",

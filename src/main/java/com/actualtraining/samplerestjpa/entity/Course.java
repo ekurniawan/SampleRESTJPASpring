@@ -21,6 +21,6 @@ public class Course {
     private int modules;
     private double fee;
 
-    @ManyToMany(mappedBy = "courses")
+    @ManyToMany(mappedBy = "courses",fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
     public List<Student> students;
 }
